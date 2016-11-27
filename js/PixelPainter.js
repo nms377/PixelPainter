@@ -1,5 +1,7 @@
 function grid() {
 
+var currColor = "white";
+
 //Container for the multiple divs
 	var container = document.createElement('div');
 	container.id = 'box';
@@ -10,6 +12,14 @@ function grid() {
 	eraser.id = 'erase';
 	eraser.innerHTML = 'ERASE';
 	pixelPainter.appendChild(eraser);
+	eraser.addEventListener('click', function(){
+		erase();
+	});
+
+	function erase(){
+			currColor = "white";
+	}
+
 
 //Create Clear button
 
@@ -17,7 +27,17 @@ function grid() {
 	clear.id = 'clears';
 	clear.innerHTML = 'CLEAR';
 	pixelPainter.appendChild(clear);
-	clear.addEventListener('click', function(){clearGrids();});
+	clear.addEventListener('click', function(){
+		clearGrids();
+	});
+
+	function clearGrids(){
+		var grid = document.getElementsByClassName("miniDiv");
+		for(var e = 0; e < grid.length; e++){
+			currColor = 'white';
+			grid[e].style.backgroundColor = currColor;
+		}
+	}
 
 //Multiple Divs or 'Pixels'
 
@@ -84,46 +104,30 @@ function grid() {
 				}
 			}
 
+
 //Load a color
+
+
 		function colorPicker(){
-		var colorArr = [ "red", "blue", "white", "black", "purple", "green"];
 		var selector = document.getElementsByClassName('colorBtn');
 		for(var k = 0; k < selector.length; k++){ 
 			selector[k].addEventListener("click", function(event){
-				this.style.backgroundColor;
-				console.log("testing", this.style.backgroundColor);
-
-
+			currColor = this.style.backgroundColor;
+				console.log(currColor);
 			});
 		}
-		// console.log(selector);
+	}
+	
+
+//loads a color on the grid
+	function pushColor(){
+		var showColor = document.getElementsByClassName('miniDiv');
+		for(var l = 0; l < showColor.length; l++){
+			showColor[l].addEventListener("click", function(event){
+			event.target.style.backgroundColor = currColor;
+			});
 		}
-		//creating a click function on the pallet
-			// var selector = document.getElementsByClassName('colorBtn');
-			// for (var k = 0 ; k < colorArr.length; k++) {
-			// 	selector.addEventListener("click",  function(event){
-			//  	console.log(event);
-			// });
-			// console.log(selector);
-			// // selector.addEventListener("click",  function(event){
-			// // 	console.log(event);
-			// // 		//calls upon an empty var to store a color
-			// // 		var currColor;
-			// // 		// 
-					
 
-
-			// 		//here is where when you click on the color in the pallet and it would change the color value to the one you pick from the pallet
-
-
-
-			// 		});
-
-
-//Clear the grid
-
-	function clearGrids(){
-		var clearIt = document.getElementsByTagName('miniDiv');
 	}
 
 		renderGrids(1722);
@@ -131,6 +135,8 @@ function grid() {
 		colorSelector();
 		renderColor();
 		colorPicker();
+		pushColor();
+		erase();
 }
 
 grid();
